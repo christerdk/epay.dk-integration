@@ -1,0 +1,10 @@
+﻿@{
+
+    foreach (string key in Request.QueryString.AllKeys)
+    {
+<text>
+    @key : @Request.QueryString[key]<br/>
+</text>
+    }
+    
+}
