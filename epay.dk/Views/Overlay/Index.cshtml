@@ -5,20 +5,24 @@
 
 <h2>Overlay test</h2>
 
-
+<script type="text/javascript" src="../../Scripts/jquery-1.6.2.js"></script>
 <script type="text/javascript" src="https://ssl.ditonlinebetalingssystem.dk/integration/ewindow/paymentwindow.js" charset="UTF-8"></script>
  
 <script type="text/javascript">
-    paymentwindow = new PaymentWindow({
-        'merchantnumber': '@ConfigurationManager.AppSettings["Epay.MerchantNumber"]',
-        'amount': '10095',
-        'currency': 'DKK',
-        'accepturl': '@Request.Url/accepturl',
-        'cancelurl': '@Request.Url/cancelurl',
-        'callbackurl': '@Request.Url/callbackurl',
-        'description': 'Description here..',
-        'ordertext': 'Order text...'
-    });
+    
+    function PreparePaymentWindow(orderid) {
+        paymentwindow = new PaymentWindow({
+            'merchantnumber': '@ConfigurationManager.AppSettings["Epay.MerchantNumber"]',
+            'amount': '10095',
+            'currency': 'DKK',
+            'accepturl': '@Request.Url/accepturl?localid=' + orderid,
+            'cancelurl': '@Request.Url/cancelurl?localid=' + orderid,
+            'callbackurl': '@Request.Url/callbackurl',
+            'description': 'Description here..',
+            'ordertext': 'Order text...'
+        });
+    }
 </script>
-<input type="button" onclick="javascript: paymentwindow.open()" value="Go to payment" />
+<input id="orderid" type="text" value="@Guid.NewGuid().ToString()"/><br/>
+<input type="button" onclick="javascript: ; PreparePaymentWindow($('#orderid').val()); paymentwindow.open();" value="Go to payment" />
 
